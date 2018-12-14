@@ -5,7 +5,7 @@ import { Actions } from 'react-native-router-flux';
 class Footer extends Component {
   
   handleRouth() {
-    Actions.orderList();
+    Actions.confirmOrder();
   }
 
   render() {

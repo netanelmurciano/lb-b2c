@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
-import RouterComponent from './Router';
+import RouterComponent from './config/Router';
 
 class App extends Component {
   render() {

@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
 import { View, Text, Image, TextInput } from 'react-native';
 //import { Intl } from 'react-native-intl';
+import { Icon } from 'react-native-elements';
 import { Card, CardSection, Button } from './common';
+
 
 class productDetail extends Component {
   constructor() {
       super();
       this.state = {
           productId: '',
+          productImage: '',
+          productPrice: '',
           itemsCount: ''
       };
     
@@ -17,11 +21,14 @@ class productDetail extends Component {
     handelTotalPrice(item) {
          this.setState({ 
           productId: this.props.product.id,
+          productName: this.props.product.name,
+          productImage: this.props.product.image_path,
+          productPrice: this.props.product.price,
           itemsCount: item
           });
           setTimeout(() => { 
-          console.log(this.state);
            this.props.totalPrice(this.state);
+           this.props.order(this.state);
        }, -1);          
      }
 
@@ -46,22 +53,22 @@ class productDetail extends Component {
         <CardSection>
           { isAvailable ? 
             <View style={styles.priceWrapper}>
-            <Text style={styles.totalPrice}>
-                {`סה''כ: ${this.state.itemsCount * this.props.product.price}`}
-            </Text>
+              <Text style={styles.totalPrice}>
+                  {`סה''כ: ${this.state.itemsCount * this.props.product.price}`}
+              </Text>
+              
+              <TextInput
+                disable={isAvailable}
+                style={styles.textInput}
+                value={this.state.itemsCount}
+                onChangeText={this.handelTotalPrice}
+                placeholder="1 י'ח"
+              />
 
-            <TextInput
-              disable={isAvailable}
-              style={styles.textInput}
-              value={this.state.productNumbers}
-              onChangeText={this.handelTotalPrice}
-              placeholder="1 י'ח"
-            />
-
-            <Text style={styles.priceHeader} >
-               {`מחיר: ${this.props.product.price} ש''ח`}
-            </Text>
-          </View>  
+              <Text style={styles.priceHeader} >
+                {`מחיר: ${this.props.product.price} ש''ח`}
+              </Text>
+            </View>  
             : <Button style={styles.notAvailable} >אזל במלאי</Button>
             }
           

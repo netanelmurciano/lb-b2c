@@ -11,11 +11,13 @@ class Home extends Component {
     this.state = { 
       products: [],
       totalPrice: {},
+      order: [],
       search: ''
     };
 
     this.totalPrice = this.totalPrice.bind(this);
     this.searchFilter = this.searchFilter.bind(this);
+    this.order = this.order.bind(this);
 }
 
 componentWillMount() {
@@ -25,16 +27,29 @@ componentWillMount() {
 }
 
 totalPrice(item) {
-  console.log(item);
   // take a copy of out state
   const totalPrice = { ...this.state.totalPrice };
   totalPrice[item.productId] = item.itemsCount;
   this.setState({ totalPrice });
 }
 
+order(item) {
+  // take a copy of out state
+  const order = [...this.state.order];
+  order[item.productId] = {
+    itemsCount: item.itemsCount,
+    productName: item.productName,
+    productImage: item.productImage,
+    productPrice: item.productPrice,
+    product_id: item.productId
+  };
+  this.setState({ order });
+
+  console.log(this.state);
+}
+
 searchFilter(contact) {
   this.setState({ search: contact.search });
-  console.log(this.state);
 }
 
   render() {
@@ -42,8 +57,8 @@ searchFilter(contact) {
       <View style={{ flex: 1 }}>
           <Header headerText="לחמניות בקריה" />
           <Search searchFilter={this.searchFilter} />
-          <ProductList products={this.state.products} totalPrice={this.totalPrice} search={this.state.search} />
-          <Footer products={this.state.products} totalPrice={this.state.totalPrice} />
+          <ProductList products={this.state.products} totalPrice={this.totalPrice} order={this.order} search={this.state.search} />
+          <Footer products={this.state.products} totalPrice={this.state.totalPrice} order={this.state.order} />
       </View>
     );
   }

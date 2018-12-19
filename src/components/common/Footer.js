@@ -3,26 +3,47 @@ import { View, Text } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
 class Footer extends Component {
-  
+  constructor() {
+    super();
+
+    this.state = {
+      totalPrice: '',
+      totalItems: ''
+    };
+    
+    this.handleRouth = this.handleRouth.bind(this);
+    this.totalPrice = this.totalPrice.bind(this);
+  }
+
+  totalPrice() {
+    const orderIds = Object.keys(this.props.totalPrice);
+      // Sum total price
+      this.total = orderIds.reduce((prevTotal, key) => {
+        const product = this.props.products[key - 1];
+        const count = this.props.totalPrice[key];
+        return prevTotal + (count * product.price);
+    }, 0);
+      // Sum total items
+      this.itemTotal = orderIds.reduce((prevTotal, key) => {
+        const count = this.props.totalPrice[key];
+        return prevTotal + (count * 1);
+      }, 0);
+  }
+    
+
   handleRouth() {
-    Actions.confirmOrder();
+    console.log(this.total);
+    this.setState({ totalPrice: this.total, totalItems: this.itemTotal, order: this.props.order });
+    setTimeout(() => {
+      console.log(this.state);
+      Actions.confirmOrder(this.state);
+    }, -1);
   }
 
   render() {
-    const { viewStyle, totalItems, totalPay, toCheckout, tocheckOutText } = styles;
+  const { viewStyle, totalItems, totalPay, toCheckout, tocheckOutText } = styles;
 
-  const orderIds = Object.keys(this.props.totalPrice);
-  // Sum total price
-  const total = orderIds.reduce((prevTotal, key) => {
-    const product = this.props.products[key - 1];
-    const count = this.props.totalPrice[key];
-    return prevTotal + (count * product.price);
-}, 0);
-  // Sum total items
-  const itemTotal = orderIds.reduce((prevTotal, key) => {
-    const count = this.props.totalPrice[key];
-    return prevTotal + (count * 1);
-  }, 0);
+  this.totalPrice();
 
   return (
       <View style={viewStyle}>
@@ -34,13 +55,13 @@ class Footer extends Component {
 
         <View style={totalPay}>
           <Text>
-          {`${total} ש''ח`}
+          {`${this.total} ש''ח`}
           </Text>
         </View>
 
         <View style={totalItems}>
           <Text>
-            {`סה''כ פריטים: ${itemTotal}`}
+            {`סה''כ פריטים: ${this.itemTotal}`}
           </Text>
         </View>
       </View>

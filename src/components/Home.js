@@ -44,12 +44,14 @@ order(item) {
     product_id: item.productId
   };
   this.setState({ order });
-
-  console.log(this.state);
 }
 
 searchFilter(contact) {
   this.setState({ search: contact.search });
+}
+
+addDetails(items) {
+
 }
 
   render() {
@@ -58,7 +60,12 @@ searchFilter(contact) {
           <Header headerText="לחמניות בקריה" />
           <Search searchFilter={this.searchFilter} />
           <ProductList products={this.state.products} totalPrice={this.totalPrice} order={this.order} search={this.state.search} />
-          <Footer products={this.state.products} totalPrice={this.state.totalPrice} order={this.state.order} />
+          <Footer 
+            products={this.state.products} 
+            totalPrice={this.state.totalPrice} 
+            order={this.state.order} 
+            addOrder={this.props.addOrder} 
+          />
       </View>
     );
   }

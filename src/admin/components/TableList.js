@@ -1,17 +1,18 @@
 import React, { Component } from 'react';
 import { ScrollView } from 'react-native';
 import axios from 'axios';
-import ProductsTabel from './ProductDetail';
+import ProductsTable from './ProductsTable';
 
 
-class ProductList extends Component {
+class TabelList extends Component {
   constructor() {
     super();
     this.state = { 
         products: [] 
     };
-    this.renderProducts = this.renderProducts.bind(this);  
-  }
+
+    this.renderProducts = this.renderProducts.bind(this);
+}
 
   componentWillMount() {
     axios.get('http://10.0.2.2:8000/api/products')
@@ -25,7 +26,7 @@ class ProductList extends Component {
 
   renderProducts() {
     return this.state.products.map(product =>
-      <ProductsTabel key={product.id} index={product.id} product={product} />
+      <ProductsTable key={product.id} index={product.id} product={product} />
     );
   }
 
@@ -38,4 +39,4 @@ class ProductList extends Component {
   }
 }
 
-export default ProductList;
+export default TabelList;

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
 class Footer extends Component {
@@ -11,7 +11,7 @@ class Footer extends Component {
       totalItems: ''
     };
     
-    this.handleRouth = this.handleRouth.bind(this);
+    this.moveToConfirmationOrder = this.moveToConfirmationOrder.bind(this);
     this.totalPrice = this.totalPrice.bind(this);
   }
 
@@ -31,26 +31,25 @@ class Footer extends Component {
   }
     
 
-  handleRouth() {
-    console.log(this.total);
+  moveToConfirmationOrder() {
     this.setState({ totalPrice: this.total, totalItems: this.itemTotal, order: this.props.order });
     setTimeout(() => {
-      console.log(this.state);
+      this.props.addOrder(this.props.order);
       Actions.confirmOrder(this.state);
     }, -1);
   }
 
   render() {
-  const { viewStyle, totalItems, totalPay, toCheckout, tocheckOutText } = styles;
+  const { viewStyle, totalItems, totalPay, toCheckout, toCheckOutText } = styles;
 
   this.totalPrice();
 
   return (
       <View style={viewStyle}>
         <View style={toCheckout}>
-          <Text style={tocheckOutText} onPress={this.handleRouth}>
-            לקופה
-          </Text>
+          <TouchableOpacity onPress={this.moveToConfirmationOrder}>
+              <Text style={toCheckOutText}>לקופה</Text>
+          </TouchableOpacity>
         </View>
 
         <View style={totalPay}>
@@ -90,7 +89,7 @@ const styles = {
     alignItems: 'flex-start',
     marginLeft: 10
   },
-  tocheckOutText: {
+  toCheckOutText: {
     justifyContent: 'space-around',
     borderWidth: 1,
     borderRadius: 5,

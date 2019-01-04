@@ -29,7 +29,7 @@ const styles = {
       marginRight: 5,
       color: '#d12028',
       background: '#fff'
-    }
+    },
 };
 
 export { Button };

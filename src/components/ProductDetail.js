@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { View, Text, Image, TextInput } from 'react-native';
-//import { Intl } from 'react-native-intl';
 import { Icon } from 'react-native-elements';
 import { Card, CardSection, Button } from './common';
 

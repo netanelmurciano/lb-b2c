@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Picker, Alert } from 'react-native';
+import { View, Text, Picker, Alert, AsyncStorage } from 'react-native';
 import axios from 'axios';
 import { Actions } from 'react-native-router-flux';
 import { Card, CardSection, Input, Button } from './common';
@@ -8,7 +8,7 @@ class FormOrder extends Component {
     constructor() {
         super();
 
-        this.addLeads = this.addLeads.bind(this);
+        this.addPersonalDetails = this.addPersonalDetails.bind(this);
 
         this.state = {
             firstName: '',
@@ -19,7 +19,18 @@ class FormOrder extends Component {
         };
     }
 
-    addLeads() {
+    componentWillMount() {
+        AsyncStorage.getItem('userLoginInfo')
+        .then((userLoginInfo) => {
+          this.checkLogIn = JSON.parse(userLoginInfo);
+          this.setState({ 
+              firstName: this.checkLogIn.data.name, 
+              lastName: this.checkLogIn.data.last_name 
+            });
+        });
+    }
+
+    addPersonalDetails() {
         if (this.state.firstName === '' || this.state.lastName === '' || this.state.address === '') {
             Alert.alert('ההזמנה לא בוצעה, נא בדוק שכל השדות מלאים');
         } else {
@@ -28,23 +39,31 @@ class FormOrder extends Component {
             firstName: this.state.firstName,
             lastName: this.state.lastName,
             address: this.state.address,
-            deliveryTime: this.state.deliveryTime,
-            isIatHome: this.state.isIatHome
+            deliveryTime: this.state.deliveryTime ? this.state.deliveryTime : 'morning',
+            isIatHome: this.state.isIatHome ? this.state.isIatHome : '1',
+            userId: this.checkLogIn.data.id, 
+            productsOrders: this.props.data
         },
         )
         .then((response) => {
-            Alert.alert('תודה רבה, ההזמנה בוצעה');
-            Actions.home();
-            console.log(`success ${response}`);
+            console.log(response);
+            if (response.data.status === 'orderSuccess') {
+                Alert.alert('תודה רבה, ההזמנה בוצעה');               
+                this.props.orderSuccess(response.data.status);
+                Actions.home(); 
+            } else {
+                Alert.alert('ההזמנה לא בוצעה, ישנה בעיה, נא בדוק שנית את הטופס');    
+            }
         })
         .catch((error) => {
             Alert.alert('ישנה בעיה, ההזמנה לא בוצעה, נא בדוק שנית את הטופס');
-            console.log(`Failed ${error}`);
+            console.log(error);
           });
         } 
     }
 
     render() {
+        console.log(this.props);
         return (
           <Card>
               <CardSection>
@@ -54,7 +73,7 @@ class FormOrder extends Component {
                         label="שם פרטי:" 
                         placeholder="שם פרטי"
                         onChangeText={firstName => this.setState({ firstName })}
-                        required
+                        editable={false}
                       />
               </CardSection>
               
@@ -65,6 +84,7 @@ class FormOrder extends Component {
                         label="שם משפחה:" 
                         placeholder="שם משפחה" 
                         onChangeText={lastName => this.setState({ lastName })} 
+                        editable={false}
                       />
               </CardSection>
 
@@ -95,7 +115,7 @@ class FormOrder extends Component {
               </CardSection>
               
               <CardSection>
-                  <Button buttonClick={this.addLeads}>הזמן</Button>
+                  <Button buttonClick={this.addPersonalDetails}>הזמן</Button>
               </CardSection>
           </Card>  
         );

@@ -1,31 +1,18 @@
 import React, { Component } from 'react';
 import { ScrollView } from 'react-native';
-import axios from 'axios';
-import ProductsTabel from './ProductDetail';
+import ProductDetail from './ProductDetail';
 
 
 class ProductList extends Component {
-  constructor() {
-    super();
-    this.state = { 
-        products: [] 
-    };
-    this.renderProducts = this.renderProducts.bind(this);  
-  }
-
-  componentWillMount() {
-    axios.get('http://10.0.2.2:8000/api/products')
-   .then(response => this.setState({ products: response.data })
-  )
-  .catch((error) => {
-   console.log('Api call error');
-   console.log(error.message);
-   });  
-}
-
   renderProducts() {
-    return this.state.products.map(product =>
-      <ProductsTabel key={product.id} index={product.id} product={product} />
+    const filterContacts = this.props.products.filter(
+      (product) => {
+        return product.name.indexOf(this.props.search) !== -1;
+      }
+    );
+
+    return filterContacts.map(product =>
+      <ProductDetail key={product.id} index={product.id} product={product} totalPrice={this.props.totalPrice} order={this.props.order} />
     );
   }
 

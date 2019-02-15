@@ -8,26 +8,52 @@ class ProductsTable extends Component {
     constructor() {
         super();
 
+        this.state = {
+            productId: '',
+            productName: '',
+            productDescription: '',
+            productPrice: '',
+            productAvailability: '',
+            productImagePath: '',
+            productImageThubnail: ''
+
+        };
+
         this.addRemovedButtons = this.addRemovedButtons.bind(this);
         this.removeProduct = this.removeProduct.bind(this);
         this.checkBeforDelete = this.checkBeforDelete.bind(this);
     }
 
-    addRemovedButtons(id) {
+    addRemovedButtons(product) {
         return (
             <ScrollView>
             <CardSection>
                 <View style={styles.buttonsWrapeer}>
-                    <TouchableOpacity style={styles.buttonStyle}>
+                    <TouchableOpacity style={styles.buttonStyle} onPress={() => this.goToEditProduct(product)}>
                         <Text style={styles.editButton}>עדכן</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.buttonStyle}>
-                        <Text style={styles.deleteButton} onPress={() => this.checkBeforDelete(id)}>מחק</Text>
+                    <TouchableOpacity style={styles.buttonStyle} onPress={() => this.checkBeforDelete(product.id)}>
+                        <Text style={styles.deleteButton}>מחק</Text>
                     </TouchableOpacity>
                 </View>
             </CardSection>
             </ScrollView>
         );
+    }
+
+    goToEditProduct(product) {
+        this.setState({
+            productId: product.id,
+            productName: product.name,
+            productDescription: product.description,
+            productPrice: product.price,
+            productAvailability: product.availability,
+            productImagePath: product.image_path,
+            productImageThubnail: product.image_thumbnail
+        });
+        setTimeout(() => {
+            Actions.editProduct(this.state);
+        }, -1);
     }
 
     checkBeforDelete(id) {
@@ -69,7 +95,7 @@ class ProductsTable extends Component {
                            <Image style={styles.thumbnailStyle} source={{ uri: this.props.product.image_thumbnail }} />
                        </View>
                    </CardSection>
-                    {this.addRemovedButtons(this.props.product.id)}
+                    {this.addRemovedButtons(this.props.product)}
              </Card>
        );
     }

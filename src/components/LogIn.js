@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text } from 'react-native';
+import { Text, AsyncStorage } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import axios from 'axios';
 import { Button, Card, CardSection, Input, Spinner } from './common';
@@ -26,12 +26,11 @@ class LogIn extends Component {
         },
         )
         .then((response) => {
-            console.log(response);
             if (response.data.status === 'notLogin') {
                 this.onLogingFail();   
             } else {
                 this.result = response.data;
-               this.onLoginSucces();     
+                this.onLoginSucces();     
             }
             // Pass a props to checkStatusConnection function in menu
             this.props.data(response.data);
@@ -48,11 +47,14 @@ class LogIn extends Component {
           //loading: false, 
           error: ''
         });
+
+        AsyncStorage.setItem('userLoginInfo', JSON.stringify(this.result));
+
         if (this.result.data.type === 'customer') {
            Actions.drawerClose('menu'); 
            Actions.home();    
         } else { 
-          Actions.addProduct(); 
+          Actions.tableList(); 
         }
     }
   

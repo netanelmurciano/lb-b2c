@@ -13,7 +13,8 @@ class ConfirmOrder extends Component {
     renderProductsOrder() {
         const { viewWrapper, productPic, productName, productPrice } = styles;
             return this.props.order.map((item) => {
-            if (item && item.itemsCount > 0) {    
+            if (item && item.itemsCount > 0) { 
+            this.props.sendOrderitemToFormOrder(this.props.order);   
             return (
                 <Card key={item.product_id}>
                     <CardSection>

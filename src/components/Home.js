@@ -21,7 +21,7 @@ class Home extends Component {
 }
 
 componentWillMount() {
-  axios.get('http://10.0.2.2:8000/api/products')
+  axios.get('http://10.0.0.2/api/products')
   .then(response => this.setState({ products: response.data })
   );
 }
@@ -55,6 +55,7 @@ addDetails(items) {
 }
 
   render() {
+    console.log(this.state);
     return (
       <View style={{ flex: 1 }}>
           <Header headerText="לחמניות בקריה" />

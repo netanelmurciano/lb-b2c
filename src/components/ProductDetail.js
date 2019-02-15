@@ -33,6 +33,8 @@ class productDetail extends Component {
 
     render() {
       const isAvailable = this.props.product.availability == 'available';
+      console.log('productDetails');
+      console.log(this.props);
     return (
       <Card>
         <CardSection>
@@ -53,7 +55,7 @@ class productDetail extends Component {
           { isAvailable ? 
             <View style={styles.priceWrapper}>
               <Text style={styles.totalPrice}>
-                  {`סה''כ: ${this.state.itemsCount * this.props.product.price}`}
+                  {`סה''כ: ${this.state.itemsCount * this.props.product.price} ש''ח`}
               </Text>
               
               <TextInput

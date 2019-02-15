@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, AsyncStorage, Alert } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
 class Footer extends Component {
@@ -32,18 +32,26 @@ class Footer extends Component {
     
 
   moveToConfirmationOrder() {
-    this.setState({ totalPrice: this.total, totalItems: this.itemTotal, order: this.props.order });
-    setTimeout(() => {
-      this.props.addOrder(this.props.order);
-      Actions.confirmOrder(this.state);
-    }, -1);
+    AsyncStorage.getItem('userLoginInfo')
+     .then((userLoginInfo) => {
+       this.checkLogIn = JSON.parse(userLoginInfo);
+       if (this.checkLogIn) {
+          this.setState({ totalPrice: this.total, totalItems: this.itemTotal, order: this.props.order });
+          setTimeout(() => {
+            this.props.addOrder(this.props.order);
+            Actions.confirmOrder(this.state);
+          }, -1);
+       } else {
+        Alert.alert('עלייך להתחבר כדי להמשיך');
+        Actions.drawerOpen('menu');
+       }  
+    });
   }
 
   render() {
   const { viewStyle, totalItems, totalPay, toCheckout, toCheckOutText } = styles;
-
+  
   this.totalPrice();
-
   return (
       <View style={viewStyle}>
         <View style={toCheckout}>

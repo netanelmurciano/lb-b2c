@@ -38,7 +38,7 @@ class EditProduct extends Component {
         if (this.state.name === '' || this.state.description === '' || this.state.price === '' || this.state.availability === '' || this.state.imagePath === '' || this.state.imageThumbnail === '') {
             Alert.alert('לא ניתן לעדכן את המוצר, בדוק שכל השדות מלאים');
         } else { 
-            axios.post('http://10.0.2.2:8000/api/updateProduct', 
+            axios.post('http://admin-lb1.50webs.com/api/updateProduct', 
             {
                 productId: this.state.productId,   
                 name: this.state.name,

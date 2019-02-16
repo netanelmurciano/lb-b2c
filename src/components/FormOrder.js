@@ -34,7 +34,7 @@ class FormOrder extends Component {
         if (this.state.firstName === '' || this.state.lastName === '' || this.state.address === '') {
             Alert.alert('ההזמנה לא בוצעה, נא בדוק שכל השדות מלאים');
         } else {
-        axios.post('http://10.0.2.2:8000/api/order', 
+        axios.post('http://admin-lb1.50webs.com/api/order', 
         {
             firstName: this.state.firstName,
             lastName: this.state.lastName,

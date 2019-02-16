@@ -16,12 +16,11 @@ class Register extends Component {
         };
 
         this.onButtonPress = this.onButtonPress.bind(this);
-        this.checkIfEmailExist = this.checkIfEmailExist.bind(this);
     }
 
     onButtonPress() {
         if (this.state.firstName !== '' && this.state.lastName !== '' && this.state.email !== '' && this.state.password !== '') {
-            axios.post('http://10.0.2.2:8000/api/register', 
+            axios.post('http://admin-lb1.50webs.com/api/register', 
             {
                 firstName: this.state.firstName,
                 lastName: this.state.lastName,
@@ -70,7 +69,7 @@ class Register extends Component {
     }
 
     checkIfEmailExist() {
-        axios.post('http://10.0.2.2:8000/api/checkEmail', 
+        axios.post('http://admin-lb1.50webs.com/api/checkEmail', 
         {
             email: this.state.email, 
         },
@@ -83,20 +82,7 @@ class Register extends Component {
         });
     }
 
-
-    renderButton() {
-        // if (this.state.loading) {
-        //   return <Spinner size="small" />;
-        // }
-        return (
-          <Button>
-            <Text onPress={this.onButtonPress}>הירשם</Text>
-          </Button>
-          );
-    }
-
     render() {
-        console.log(this.state);
         return (
             <Card>
                 <CardSection>
@@ -147,8 +133,8 @@ class Register extends Component {
               {this.state.error}
             </Text>
 
-            <CardSection>
-            {this.renderButton()}
+             <CardSection>
+                  <Button buttonClick={this.onButtonPress}>הירשם</Button>
             </CardSection>
 
         </Card>

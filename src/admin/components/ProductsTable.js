@@ -69,7 +69,7 @@ class ProductsTable extends Component {
     }
 
     removeProduct(productId) {
-        axios.post('http://10.0.2.2:8000/api/removeProduct', 
+        axios.post('http://admin-lb1.50webs.com/api/removeProduct', 
         {
             id: productId, 
         },

@@ -61,16 +61,17 @@ class productDetail extends Component {
               <TextInput
                 disable={isAvailable}
                 style={styles.textInput}
+                keyboardType='numeric'
                 value={this.state.itemsCount}
                 onChangeText={this.handelTotalPrice}
-                placeholder="1 י'ח"
+                placeholder="0 י'ח"
               />
 
               <Text style={styles.priceHeader} >
                 {`מחיר: ${this.props.product.price} ש''ח`}
               </Text>
             </View>  
-            : <Button style={styles.notAvailable} >אזל במלאי</Button>
+            : <Button notAvailable={{ borderColor: '#d12028', color: '#d12028' }} >אזל במלאי</Button>
             }
           
         </CardSection>

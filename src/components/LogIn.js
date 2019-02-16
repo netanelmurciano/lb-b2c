@@ -15,11 +15,11 @@ class LogIn extends Component {
         };
 
         this.onButtonPress = this.onButtonPress.bind(this);
-        this.renderButton = this.renderButton.bind(this);
     }
 
     onButtonPress() {
-        axios.post('http://10.0.2.2:8000/api/login', 
+        console.log('bla');
+        axios.post('http://admin-lb1.50webs.com/api/login', 
         {
             email: this.state.email,
             password: this.state.password  
@@ -64,18 +64,7 @@ class LogIn extends Component {
           //loading: false
         });
     }
-
-    renderButton() {
-        if (this.state.loading) {
-          return <Spinner size="small" />;
-        }
-        return (
-          <Button>
-            <Text onPress={this.onButtonPress}>התחבר</Text>
-          </Button>
-          );
-    }
-    
+ 
     render() {
         return (
             <Card>
@@ -106,8 +95,8 @@ class LogIn extends Component {
                 </Text>
 
                 <CardSection>
-                {this.renderButton()}
-                </CardSection>
+                  <Button buttonClick={this.onButtonPress}>התחבר</Button>
+               </CardSection>
 
             </Card>
         );

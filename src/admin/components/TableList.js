@@ -15,7 +15,7 @@ class TabelList extends Component {
 }
 
   componentWillMount() {
-    axios.get('http://10.0.2.2:8000/api/products')
+    axios.get('http://admin-lb1.50webs.com/api/products')
    .then(response => this.setState({ products: response.data })
   )
   .catch((error) => {
